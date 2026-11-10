@@ -1,0 +1,6 @@
+data/
+__pycache__/
+*.pyc
+.env
+.github_token
+.DS_Store

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mandate — spend authority for autonomous agents</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23070a10'/><path d='M9 23V10l7 6 7-6v13' stroke='%234d8dff' stroke-width='2.4' fill='none' stroke-linejoin='round' stroke-linecap='round'/></svg>">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">M</div>
+      <div class="brand-text">
+        <h1>MANDATE</h1>
+        <p>Spend authority for autonomous agents</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="badge" id="ai-badge">AI</span>
+      <span class="badge paypal" id="paypal-badge">PayPal</span>
+      <button class="btn ghost" id="reset-btn">Reset demo</button>
+    </div>
+  </header>
+
+  <section class="statbar" id="statbar" aria-label="Live metrics"></section>
+
+  <main class="layout">
+    <aside class="panel mandate-panel" id="mandate-panel" aria-label="Mandate">
+      <div class="panel-head">
+        <div class="agent-row">
+          <div class="avatar" id="m-agent-avatar">S</div>
+          <div class="agent-meta">
+            <div class="agent-name">
+              <strong id="m-agent">Scout</strong>
+              <span class="pill" id="m-status">active</span>
+            </div>
+            <span class="muted small mono" id="m-id">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="donut-wrap">
+        <svg viewBox="0 0 128 128" class="donut" aria-hidden="true">
+          <defs>
+            <linearGradient id="donutGradient" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#4d8dff"></stop>
+              <stop offset="100%" stop-color="#7fe3ff"></stop>
+            </linearGradient>
+          </defs>
+          <circle cx="64" cy="64" r="54" class="donut-track"></circle>
+          <circle cx="64" cy="64" r="54" class="donut-fill" id="donut-fill"></circle>
+        </svg>
+        <div class="donut-center">
+          <strong id="m-spent">$0.00</strong>
+          <span>of <span id="m-budget">$0.00</span></span>
+        </div>
+      </div>
+
+      <div class="limits">
+        <div class="limit"><span>Per transaction</span><strong id="m-cap">—</strong></div>
+        <div class="limit"><span>Auto-approve under</span><strong id="m-threshold">—</strong></div>
+        <div class="limit"><span>Purchases / hour</span><strong id="m-velocity">—</strong></div>
+        <div class="limit"><span>Expires in</span><strong id="m-expiry">—</strong></div>
+      </div>
+
+      <div class="chips-block">
+        <span class="label">Merchant allowlist</span>
+        <div class="chips" id="m-merchants"></div>
+      </div>
+      <div class="chips-block">
+        <span class="label">Authorized categories</span>
+        <div class="chips" id="m-categories"></div>
+      </div>
+
+      <div class="token-block">
+        <div class="token-head">
+          <span class="label">Signed capability token</span>
+          <span class="mono tiny">HMAC-SHA256</span>
+        </div>
+        <code id="m-token" title="Click to copy the full token">—</code>
+        <div class="token-actions">
+          <button class="btn mini" id="verify-btn">Verify signature</button>
+          <button class="btn mini danger-ghost" id="tamper-btn">Tamper test</button>
+        </div>
+        <p class="token-result" id="token-result"></p>
+      </div>
+
+      <div class="mandate-actions">
+        <button class="btn secondary" id="topup-btn">Top up +$75</button>
+        <button class="btn danger" id="revoke-btn">Revoke mandate</button>
+      </div>
+    </aside>
+
+    <section class="panel console-panel" aria-label="Agent console">
+      <div class="panel-head">
+        <div>
+          <h2>Agent console</h2>
+          <p class="muted small">Give Scout a goal. It can spend — but only inside the mandate.</p>
+        </div>
+        <span class="pill idle" id="agent-state">idle</span>
+      </div>
+
+      <div class="scenarios">
+        <span class="label">Demo</span>
+        <button class="scenario" data-act="1"><b>①</b> Inside the rails</button>
+        <button class="scenario" data-act="2"><b>②</b> Hit the wall</button>
+        <button class="scenario" data-act="3"><b>③</b> Pull the plug</button>
+      </div>
+
+      <form id="run-form" class="composer">
+        <textarea id="goal" rows="2" maxlength="500" spellcheck="false" aria-label="Goal for the agent">Find me running shoes for under $100.</textarea>
+        <button class="btn primary" id="run-btn" type="submit">
+          <span>Run agent</span>
+          <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+
+      <div class="trace" id="trace" aria-live="polite">
+        <div class="trace-empty">
+          <div class="trace-empty-icon">⌁</div>
+          <p>No activity yet.</p>
+          <span>Run the agent and every decision appears here — planning, policy checks, and the payment itself.</span>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel side-panel" aria-label="Approvals and ledger">
+      <div class="panel-head">
+        <h2>Approvals</h2>
+        <span class="pill warn" id="approval-count">0 pending</span>
+      </div>
+      <div id="approvals" class="approvals"></div>
+
+      <div class="divider"></div>
+
+      <div class="panel-head">
+        <h2>Ledger</h2>
+        <span class="muted small" id="ledger-total">$0.00 captured</span>
+      </div>
+      <div id="ledger" class="ledger"></div>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <span>Mandate · working prototype</span>
+    <span id="footer-mode">policy engine · signed tokens · PayPal sandbox</span>
+  </footer>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
