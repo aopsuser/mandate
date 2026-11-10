@@ -1,10 +1,29 @@
 # Publish to GitHub
 
-Everything is ready to push. This machine has no `git` binary (Xcode Command
-Line Tools are not installed) and no GitHub credentials, so the last step has to
-run on your side.
+**Status: published** — <https://github.com/aopsuser/mandate>
 
-## 1. Install git (one time, ~2 minutes)
+The repository was pushed with `scripts/publish_api.py`, which uses the GitHub
+REST API directly (this machine has no git binary and no Xcode Command Line
+Tools). Re-running it is safe: it creates a new commit on top of `main` with the
+current working tree.
+
+```bash
+GITHUB_TOKEN=... SSL_CERT_FILE=/etc/ssl/cert.pem python3 scripts/publish_api.py
+```
+
+`SSL_CERT_FILE` is only needed because the python.org build on this machine
+ships without a CA bundle; the app now sets it automatically at startup
+(`mandate/config.py`).
+
+The notes below are kept for the alternative git-based path.
+
+## Alternative: push with git
+
+Everything is ready to push. This machine has no `git` binary (Xcode Command
+Line Tools are not installed) and no GitHub credentials, so this path has to run
+on your side.
+
+### 1. Install git (one time, ~2 minutes)
 
 ```bash
 xcode-select --install
@@ -16,7 +35,7 @@ Accept the dialog, wait for the install to finish, then confirm:
 git --version
 ```
 
-## 2. Run the publish script
+### 2. Run the publish script
 
 ```bash
 ./scripts/publish.sh <your-github-username>
@@ -41,7 +60,7 @@ git remote add origin https://github.com/<username>/mandate.git
 git push -u origin main
 ```
 
-## 3. Verify the submission requirements
+## Verify the submission requirements
 
 Open the repository and check:
 
@@ -51,7 +70,7 @@ Open the repository and check:
 - [ ] The README renders with the architecture diagram.
 - [ ] `data/` and `.env` are **not** in the repository (they are gitignored).
 
-## 4. Add credentials locally (never commit them)
+## Add credentials locally (never commit them)
 
 ```bash
 cp .env.example .env     # already created for you
@@ -73,7 +92,7 @@ Restart the app and the header badge changes from `PayPal · mock` to
 `PayPal · sandbox`. If the header still says mock, the `.env` file is not being
 found or the keys are empty.
 
-## 5. Last step
+## Last step
 
 Record the three-minute demo (see `docs/demo-script.md`), upload it to YouTube,
 then fill the Devpost form from `docs/devpost-submission.md`.

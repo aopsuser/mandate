@@ -92,7 +92,24 @@ class Settings:
         return "heuristic planner"
 
 
+def _ensure_ca_bundle() -> None:
+    """Point OpenSSL at the OS trust store when Python ships without one.
+
+    The python.org macOS installer does not install a CA bundle, so
+    ``ssl.create_default_context()`` fails with CERTIFICATE_VERIFY_FAILED
+    until the user runs "Install Certificates.command". Falling back to the
+    system bundle keeps PayPal and LLM calls working out of the box.
+    """
+    if os.environ.get("SSL_CERT_FILE"):
+        return
+    for candidate in ("/etc/ssl/cert.pem", "/usr/local/etc/openssl/cert.pem"):
+        if Path(candidate).is_file():
+            os.environ["SSL_CERT_FILE"] = candidate
+            return
+
+
 def load_settings() -> Settings:
+    _ensure_ca_bundle()
     return Settings(
         host=os.environ.get("HOST", "127.0.0.1").strip(),
         port=int(os.environ.get("PORT", "3000")),

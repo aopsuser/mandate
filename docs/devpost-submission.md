@@ -116,61 +116,38 @@ block after revocation.
 
 ## Try it out
 
-- **GitHub repository:** `https://github.com/<your-username>/mandate`
-  → replace `<your-username>` once the repo is published.
+- **GitHub repository:** <https://github.com/aopsuser/mandate>
 - **Demo video:** `<add public YouTube URL, under 3 minutes>`
 - **Run locally:** `python3 app.py` → <http://127.0.0.1:3000>
 
 ---
 
-## Publishing and final links
+## Publishing status
 
-Do these in order. Only the last two need your GitHub/YouTube accounts, which
-is why they are not pre-filled.
+**Done — repository is live:** <https://github.com/aopsuser/mandate>
 
-### 1. Publish the repository
+Verified through the GitHub API:
 
-Git and GitHub credentials are not available on the machine the project was
-built on, so this step runs on your side. Full details are in
-[`PUBLISH.md`](../PUBLISH.md); the short version:
+- Public repository, default branch `main`.
+- 28 files committed; `.env` and `data/` are not present.
+- Description and all six topics set.
+- GitHub reports the license as **MIT** (it appears in the About sidebar).
 
-```bash
-xcode-select --install          # one time, if git is missing
-./scripts/publish.sh <your-github-username>
-```
+The remaining work is the video and the Devpost form.
 
-If GitHub CLI is not installed, create an empty public repo named `mandate`
-first, then run the same script — it will push to
-`https://github.com/<your-username>/mandate`.
-
-### 2. Make the repository submission-ready
-
-In **Settings → General**:
-
-- Visibility: **Public**.
-- Description:
-  `Spend authority for autonomous agents — signed, scoped, revocable budgets settled through PayPal.`
-- Topics:
-  `paypal`, `ai-agents`, `agentic-commerce`, `fintech`, `hackathon`, `python`.
-
-The **MIT license** appears in the About sidebar automatically because
-`LICENSE` is at the repository root. The rules require the license to be
-visible in the About section, so check it before submitting.
-
-### 3. Record and upload the video
+### 1. Record and upload the video
 
 Follow [`demo-script.md`](demo-script.md). Reset the demo first, record at
 1440×900 or larger, keep the final cut under 3:00, and upload to YouTube as
 **Public** (not Unlisted — judges need to open it without an account).
 
-### 4. Substitute the links
+### 2. Substitute the video link
 
 | Placeholder | Replace with |
 |---|---|
-| `https://github.com/<your-username>/mandate` | your public repository URL |
 | `<add public YouTube URL, under 3 minutes>` | your public YouTube URL |
 
-### 5. Fill the Devpost form
+### 3. Fill the Devpost form
 
 Paste each section above into the matching field:
 
@@ -179,7 +156,7 @@ Paste each section above into the matching field:
 - **Inspiration / What it does / How we built it / Challenges / Accomplishments /
   What we learned / What's next** → the matching sections
 - **Built with** → the tag list
-- **Try it out** → repository URL and video URL
+- **Try it out** → the repository URL above and the video URL
 - **AI tools used** → the LLM endpoint and model if you set `LLM_API_KEY`,
   otherwise “deterministic heuristic planner (no model required)” — plus
   **PayPal Orders v2** as the payments integration.
@@ -188,11 +165,11 @@ Paste each section above into the matching field:
 
 ### Before you submit
 
-- [ ] `./scripts/publish.sh <username>` completed and the repo opens publicly.
-- [ ] About sidebar shows **MIT license**.
-- [ ] `data/` and `.env` are absent from the repository.
+- [x] Repository is public and opens without authentication.
+- [x] About sidebar shows **MIT license**.
+- [x] `data/` and `.env` are absent from the repository.
 - [ ] Video is public on YouTube and under 3:00.
-- [ ] Both placeholder links in “Try it out” are replaced.
+- [ ] Video URL replaces the placeholder in “Try it out”.
 - [ ] AI tools listed on the form.
 - [ ] Demo reset in the recording so the ledger starts empty.
 - [ ] Re-check eligibility rules for every team member (Section 3).

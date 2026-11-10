@@ -2,6 +2,11 @@
 
 **Spend authority for autonomous agents.**
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![Dependencies: none](https://img.shields.io/badge/dependencies-none-brightgreen.svg)](requirements.txt)
+[![Tests: 20 passing](https://img.shields.io/badge/tests-20%20passing-brightgreen.svg)](tests)
+
 Mandate lets a human hand an AI agent a scoped, signed, revocable budget — and then lets the agent actually pay with PayPal inside those rails.
 
 Built for the **PayPal AI Hackathon: Build what's next with PayPal and AI** (Agentic Commerce track).
